@@ -8,6 +8,7 @@ import Products from './pages/Products/Products'
 import Navbar from './components/Navbar/Navbar'
 import Register from './pages/Register/Register'
 import getCsrfToken from './api/csrf'
+import Account from './pages/Account/Account'
 
 function App() {
   useEffect(()=>{
@@ -23,6 +24,7 @@ function App() {
           <Route path="/Products" element={<Products />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
+          <Route path="/Account" element={<Account />} />
         </Routes>
       </div>
     </Router>

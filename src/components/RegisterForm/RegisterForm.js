@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import api from "../../api/axios"
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
@@ -21,8 +23,6 @@ const Register = () => {
         const csrfToken = Cookies.get('csrftoken');
         if (!csrfToken) {
             console.error('CSRF token not found.');
-            console.log(csrfToken);
-            console.log(document.cookie);
             return
         }
         
@@ -40,8 +40,9 @@ const Register = () => {
             }
         } else if (step === 2) {
             try {
-                await api.post("verify-totp-setup/", { user_id: userId, otp });
-                window.location.href = "/login"; 
+                await api.post("verify-totp-setup/", { userId, otp }, 
+                {headers: {'X-CSRFToken': csrfToken, }});
+                navigate("/login"); 
             } catch (err) {
                 setError(err.response?.data?.error || "Verification failed.");
             }
