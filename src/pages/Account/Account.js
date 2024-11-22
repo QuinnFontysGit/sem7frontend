@@ -19,7 +19,8 @@ function Account() {
         } catch (err) {
             setError(err.response?.data?.error || "Logout failed.");
         }
-        Cookies.delete("sessionid")
+        Cookies.remove('loggedIn');
+        Cookies.remove('userid');
         navigate("/");
     }
 

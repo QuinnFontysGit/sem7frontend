@@ -16,9 +16,15 @@ const LoginForm = ({ onLogin }) => {
             return
         }
         try {
+            let userRole = 'None'
+            let userId = 0
             await api.post("/login/", { username, password, otp }, 
-            {headers: {'X-CSRFToken': csrfToken, }});
-            onLogin();
+            {headers: {'X-CSRFToken': csrfToken, }})
+            .then(response =>{
+                userRole = response.data.role
+                userId = response.data.userid
+            })
+            onLogin(userRole, userId);
         } catch (err) {
             setError(err.response?.data?.error || "Login failed.");
         }

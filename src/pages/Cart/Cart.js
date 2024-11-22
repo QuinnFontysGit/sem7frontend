@@ -1,14 +1,21 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import Product from '../../components/Product/Product.js'
+import Cookies from "js-cookie";
 
-function ProductsPage() {
-    const [products, setProducts] = useState([]);
+function CartPage() {
+    const [cart, setCart] = useState([]);
 
     useEffect(()=>{
-        axios.get('https://localhost:8000/products/')
+        const userId = Cookies.get('userid')
+        if(!userId){
+            console.error('user not logged in, can not fetch cart');
+            return
+        }
+
+        axios.get('https://localhost:8000/carts/' + userId + '/')
             .then(response => {
-                setProducts(response.data.results);
+                setCart(response.data.results);
                 console.log(response.data);
             })
             .catch(error=>{
@@ -18,9 +25,9 @@ function ProductsPage() {
 
     return (
         <div>
-            products:
+            cart items:
             <div className="productlist">
-                {products.map(product =>(
+                {cart.map(product =>(
                     <Product key={product.id} product={product} />
                 ))}
             </div>
@@ -28,4 +35,4 @@ function ProductsPage() {
     )
 }
 
-export default ProductsPage;
+export default CartPage;

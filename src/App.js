@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 
@@ -9,8 +9,10 @@ import Navbar from './components/Navbar/Navbar'
 import Register from './pages/Register/Register'
 import getCsrfToken from './api/csrf'
 import Account from './pages/Account/Account'
+import Cart from './pages/Cart/Cart'
 
 function App() {
+
   useEffect(()=>{
     getCsrfToken();
   }, [])
@@ -25,6 +27,7 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
           <Route path="/Account" element={<Account />} />
+          <Route path="/Cart" element={<Cart />} />
         </Routes>
       </div>
     </Router>
