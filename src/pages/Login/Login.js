@@ -1,6 +1,6 @@
 import React from "react";
 import LoginForm from '../../components/LoginForm/LoginForm'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Cookies from "js-cookie";
 
 function Login() {
@@ -14,6 +14,12 @@ function Login() {
     return (
         <div>
             <LoginForm onLogin={handleLogin}/>
+            <h3>Don't have an account? Register here:</h3>
+            <nav>
+                <div>
+                    <Link to="/register">Register</Link>
+                </div>
+            </nav>
         </div>
     )
 }
