@@ -26,6 +26,7 @@ function Account() {
 
     return (
         <div>
+            <h3>Sometimes the logout takes a while. Try multiple times and check the cookies with inspect element.</h3>
             <form onSubmit={handleLogout}>
                 <button type="submit">Log out</button>
                 {error && <p style={{ color: "red" }}>{error}</p>}

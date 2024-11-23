@@ -31,6 +31,9 @@ const LoginForm = ({ onLogin }) => {
     };
 
     return (
+        <div>
+            <h2>Please refresh after logging in to get the updated navbar</h2>
+            <h3>I was too lazy to implement application context (it's a pain)</h3>
         <form onSubmit={handleSubmit}>
             <input type="text" placeholder="Username" value={username} 
             onChange={(e) => setUsername(e.target.value)}
@@ -44,6 +47,7 @@ const LoginForm = ({ onLogin }) => {
             <button type="submit">Login</button>
             {error && <p style={{ color: "red" }}>{error}</p>}
         </form>
+        </div>
     );
 };
 

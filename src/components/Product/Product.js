@@ -1,11 +1,20 @@
 import React from "react";
+import './Product.css';
+import Cookies from "js-cookie";
 
 function Product(props) {
-    const {title, price} = props.product;
+    const {title, price, id} = props.product;
+    const logged = Cookies.get("loggedIn");
     return (
-        <container>
+        <div className="productcontainer">
             <h2>{title}, ${price}</h2>
-        </container>
+            {logged ? (<form onSubmit={(e)=>{
+                e.preventDefault(); props.addToCart(id);
+            }}>
+                <button className="addbutton" type="submit">Add 1 to cart</button>
+            </form>):(null)}
+            
+        </div>
     )
 }
 

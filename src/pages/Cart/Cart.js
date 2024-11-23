@@ -1,34 +1,45 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import Product from '../../components/Product/Product.js'
+import CartProduct from '../../components/CartProduct/CartProduct'
 import Cookies from "js-cookie";
 
 function CartPage() {
     const [cart, setCart] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(()=>{
-        const userId = Cookies.get('userid')
-        if(!userId){
-            console.error('user not logged in, can not fetch cart');
-            return
-        }
+    useEffect(() => {
+        const fetchCart = async () => {
+            const userId = Cookies.get('userid');
+            if (!userId) {
+                console.error('User not logged in, cannot fetch cart');
+                setLoading(false);
+                return;
+            }
 
-        axios.get('https://localhost:8000/carts/' + userId + '/')
-            .then(response => {
-                setCart(response.data.results);
-                console.log(response.data);
-            })
-            .catch(error=>{
-                console.error("Could not fetch product data:\n", error)
-            })
+            try {
+                const response = await axios.get('https://localhost:8000/carts/' + userId + '/');
+                setCart(response.data.products);
+                console.log(response.data)
+            } catch (error) {
+                console.error("Could not fetch product data:\n", error);
+            } finally {
+                setLoading(false); 
+            }
+        };
+
+        fetchCart(); 
     }, []);
+
+    if (loading){
+        return <div>Loading cart...</div>
+    }
 
     return (
         <div>
             cart items:
             <div className="productlist">
                 {cart.map(product =>(
-                    <Product key={product.id} product={product} />
+                    <CartProduct key={product.id} product={product} />
                 ))}
             </div>
         </div>
