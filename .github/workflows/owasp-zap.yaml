@@ -1,0 +1,54 @@
+name: React CI Pipeline with ZAP Security Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Build the app
+        run: |
+          npm run build
+
+  zap_scan:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Start React App in Background
+        run: |
+          nohup npm start &  # Starts the React app in the background
+
+      - name: Run OWASP ZAP security scan
+        uses: zaproxy/action-full-scan@v0.8.0
+        with:
+          target: "http://localhost:3000"
+
+      - name: Save ZAP report as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: zap-report
+          path: zap-report.html
+
