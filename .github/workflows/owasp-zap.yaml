@@ -36,10 +36,19 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v2
+      
+      - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+      - name: Install dependencies
+      run: |
+        npm install
 
       - name: Start React App in Background
         run: |
-          nohup npm start --host 0.0.0.0 &
+          nohup npm start &
 
       - name: Wait for React app to start
         run: |
@@ -48,7 +57,7 @@ jobs:
       - name: Run OWASP ZAP security scan
         uses: zaproxy/action-full-scan@v0.8.0
         with:
-          target: "http://host.docker.internal:3000"
+          target: "http://localhost:3000"
 
       - name: Save ZAP report as artifact
         uses: actions/upload-artifact@v3
