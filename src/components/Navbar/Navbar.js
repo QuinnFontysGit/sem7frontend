@@ -11,7 +11,7 @@ function Navbar() {
         if(role && role !== userRole){
             setUserRole(role);
         }
-    }, [])
+    }, [userRole])
 
     return (
         <nav className="container">
