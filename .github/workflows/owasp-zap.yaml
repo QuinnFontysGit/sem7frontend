@@ -40,6 +40,10 @@ jobs:
       - name: Start React App in Background
         run: |
           nohup npm start &  # Starts the React app in the background
+      
+      -name: Wait for React App to start
+        run: |
+          sleep 10
 
       - name: Run OWASP ZAP security scan
         uses: zaproxy/action-full-scan@v0.8.0
